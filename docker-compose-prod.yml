@@ -1,0 +1,29 @@
+
+services:
+  fastapi-backend:
+    container_name: "astro-backend"
+    image: captwhite/astro-backend:latest
+    networks:
+      - webnet-astro
+
+  vite-react-tw-frontend:
+    container_name: "astro-frontend"
+    image: captwhite/astro-frontend:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.astro-http.entrypoints=web"
+      - "traefik.http.routers.astro-http.rule=Host(`astro.captwhite.com`)"
+      - "traefik.http.routers.astro-http.middlewares=redirect-to-https@docker"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      #
+      - "traefik.http.routers.astro.entrypoints=websecure"
+      - "traefik.http.routers.astro.rule=Host(`astro.captwhite.com`)"
+      - "traefik.http.routers.astro.tls=true"
+      - "traefik.http.routers.astro.tls.certresolver=myresolver"
+      - "traefik.http.services.astro.loadbalancer.server.port=8080"
+    networks:
+      - webnet-astro
+
+networks:
+  webnet-astro:
+    external: true
