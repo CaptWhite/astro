@@ -20,7 +20,7 @@ class LogRequestMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         return response
 
-app.add_middleware(LogRequestMiddleware)
+# app.add_middleware(LogRequestMiddleware)
 
 # MIDDLEWARE #############################################
 app.add_middleware(
