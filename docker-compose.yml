@@ -5,6 +5,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    networks:
+      - webnet-astro
 
   vite-react-tw-frontend:
     container_name: "astro-frontend"
@@ -13,3 +15,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8080:8080
+    networks:
+      - webnet-astro
+
+networks:
+  webnet-astro:
+    external: true
