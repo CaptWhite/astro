@@ -70,7 +70,7 @@ Ahora que la clave está en el servidor, puedes probar la conexión. Si todo est
 ```bash
 ssh deploy@<tu_servidor>
 ```
-
+ 
 Si la conexión funciona, ¡genial\! Es hora de deshabilitar la autenticación por contraseña para este usuario. Esto es crucial para la seguridad, ya que **evita por completo** que alguien intente iniciar sesión con una contraseña.
 
 Abre el archivo de configuración del demonio de SSH:
