@@ -1,19 +1,11 @@
-import time
-import requests
-import json
 import os
 import zipfile
 import io
 from dotenv import load_dotenv
-
 from app.services_upload.fits_to_df import convert_to_df
-
-
 import zipfile
 import io
 from dataclasses import dataclass
-
-# from fits_to_df import convert_to_df
 
 @dataclass
 class File:
@@ -39,13 +31,13 @@ def unzip(filename, filebytes):
 
             file_obj = File(name=name, content=content)
 
-            if name.endswith('.corr.fits'):
+            if name.endswith('corr.fits'):
                 if fileCorr is not None:
                     raise ValueError("Hay más de un archivo que termina en '.corr.fits'.")
                 fileCorr = file_obj
             else:
                 if fileImg is not None:
-                    raise ValueError("Hay más de un archivo que no termina en '.corr.fits'.")
+                    raise ValueError("Falta un fichero imagen.")
                 fileImg = file_obj
 
         if fileCorr is None or fileImg is None:
@@ -54,9 +46,6 @@ def unzip(filename, filebytes):
         df = convert_to_df(fileCorr.content.getvalue())
 
         return df, fileImg  
-
-
-
 
 ########################################################################
 ########################################################################
