@@ -1,6 +1,5 @@
-from more_itertools import unzip
+from app.services_upload.unzip_files import unzip
 from app.services_upload.astrometry import director
-from app.services_upload.unzip import unzip
 #from app.services_upload.astropypy import get_apparent
 from app.services_calculate.calc_star import get_apparent
 from app.services_upload.pilpy import add_star_names
@@ -31,9 +30,10 @@ async def main_process(file, date):
 
     #################  UNZIP.NET   #####################
     if filename.endswith('.zip'):
-        df, fileImg = unzip(filename, filebytes) 
-        filename = fileImg.name  
-        filebytes = fileImg.content.getvalue()
+        # df, fileImg = unzip(filename, filebytes) 
+        # filename = fileImg.name  
+        # filebytes = fileImg.content.getvalue()
+        df, filename, filebytes = unzip(filename, filebytes)
 
     #################  ASTROMETRY.NET   #####################
     else:
@@ -56,14 +56,14 @@ async def main_process(file, date):
     stars = convert_units(stars)
     print_xlsx(filename, stars, '.units.xlsx')
 
+    #################  PIL   ##################### 
+    img_size, img_bytes, PIL_image = add_star_names(filename, filebytes, stars)
+    print_jpg(filename, PIL_image, '.named.jpg') 
+
     ############ PLATE CONSTANTS #############
-    stars, plate = calculate_plate(stars)
+    stars, plate = calculate_plate(stars, img_size)
     print_xlsx(filename, stars, '.astropy-units.xlsx')  
     print_xlsx(filename, plate, '.plate-coefs.xlsx')  
-
-    #################  PIL   ##################### 
-    img_bytes, PIL_image = add_star_names(filebytes, stars)
-    print_jpg(filename, PIL_image, '.named.jpg') 
 
     #################  RETORNO #####################
     csv_buffer = io.StringIO()

@@ -358,9 +358,11 @@ def greenwich_mean_sidereal_time (jd):
     # Mean Sideral Time at Greenwich at 0h UT - Meeus 11.4
     st0_deg = 280.46061837 + 360.98564736629*(jd-2451545.0) + T*T*0.000387933 - T*T*T/38710000;
     st0_rad = degree_to_radian(st0_deg)
-    st0_rad = scale_angle(st0_rad)
-    st0_hour = radian_to_degree(st0_rad) / 24
-    return st0_hour
+    # st0_rad = scale_angle(st0_rad)
+    # st0_hour = radian_to_degree(st0_rad) / 24
+    # return st0_hour
+    st0 = scale_angle(st0_rad)
+    return st0
 
 def local_sideral_time (lon, jd): 
     gmst_rad = greenwich_mean_sidereal_time (jd)

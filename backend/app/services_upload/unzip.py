@@ -1,6 +1,4 @@
 import os
-import zipfile
-import io
 from dotenv import load_dotenv
 from app.services_upload.fits_to_df import convert_to_df
 import zipfile
