@@ -9,10 +9,12 @@ export const UpperForm = () => {
   const {
     imageFile,
     date,
+    time,
     outputType,
     loading,
     setImageFile,
     setDate,
+    setTime,
     setOutputType,
     fetchData,
     setType,
@@ -31,6 +33,10 @@ export const UpperForm = () => {
     setDate(e.target.value);
   };
 
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTime(e.target.value);
+  };
+
   const handleSelectChange = (e: SelectChangeEvent<string>) => {
     const value = e.target.value;
     setOutputType(value);
@@ -40,7 +46,7 @@ export const UpperForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (imageFile) {
-      await fetchData(imageFile, date);
+      await fetchData(imageFile, date, time);
     }
   };
 
@@ -71,6 +77,11 @@ export const UpperForm = () => {
         {/* Selector de fecha */}
         <Box flex="1 1 auto" maxWidth={{ xs: "100%", sm: "20%" }} padding={1}>
           <TextField type="date" value={date} onChange={handleDateChange} fullWidth />
+        </Box>
+
+        {/* Selector de hora */}
+        <Box flex="1 1 auto" maxWidth={{ xs: "100%", sm: "15%" }} padding={1}>
+          <TextField type="time" value={time} onChange={handleTimeChange} fullWidth />
         </Box>
 
         {/* Selector de tipo de salida */}

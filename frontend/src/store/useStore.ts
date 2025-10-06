@@ -13,6 +13,7 @@ interface StoreState {
   error: string | null;
   imageFile: File | '';
   date: string;
+  time: string;
   outputType: string;
   radio1: string;
   radio2: string;
@@ -27,10 +28,11 @@ interface StoreActions {
   setError: (error: string | null) => void;
   setImageFile: (file: File | '') => void;
   setDate: (date: string) => void;
+  setTime: (time: string) => void;
   setOutputType: (type: string) => void;
   setRadio1: (value: string) => void;
   setRadio2: (value: string) => void;
-  fetchData: (imageFile: File | '', date: string) => Promise<void>;
+  fetchData: (imageFile: File | '', date: string, time: string) => Promise<void>;
 }
 
 export const useStore = create<StoreState & StoreActions>((set) => ({
@@ -42,6 +44,7 @@ export const useStore = create<StoreState & StoreActions>((set) => ({
   error: null,
   imageFile: '' as File | '',
   date: todayString,
+  time: '22:00',
   outputType: 'image',
   radio1: 'position',
   radio2: 'degree',
@@ -53,17 +56,18 @@ export const useStore = create<StoreState & StoreActions>((set) => ({
   setError: (error: string | null) => set({ error: error }),
   setImageFile: (file: File | '') => set({ imageFile: file }),
   setDate: (date: string) => set({ date: date }),
+  setTime: (time: string) => set({ time: time }),
   setOutputType: (type: string) => set({ outputType: type }),
   setRadio1: (value: string) => set({ radio1: value }),
   setRadio2: (value: string) => set({ radio2: value }),
-  fetchData: async (imageFile: File | '', date: string) => {
+  fetchData: async (imageFile: File | '', date: string, time: string  ) => {
     set({ loading: true, error: null });
     try {
       if (!(imageFile instanceof File)) {
         set({ error: 'No image file provided', loading: false });
         return;
       }
-      const result = await getResources(imageFile, date + "T00:00:00");
+      const result = await getResources(imageFile, date + "T" + time + ":00" );
       if (result && Array.isArray(result)) {
         const [blobImage, parsedData, parsedPlate] = result;
         if (blobImage) {

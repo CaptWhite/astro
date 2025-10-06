@@ -9,7 +9,7 @@ interface GetResourcesResponse {
 
 export const getResources = async (
   imageFile: File,
-  date: string
+  date: string,
 ): Promise<[Blob, string[][], string[][]] | []> => {
   if (!imageFile || !date) { 
     alert("Por favor, selecciona un archivo y una fecha.");

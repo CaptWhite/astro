@@ -48,38 +48,41 @@ export const tableParams: any =
     placa: {
       type : 'placa',
       align : ["right", "left", "right", "right", "right", "right"],
-      title : ["Id", "Estrella", "Pos X", "Pos Y", "AR Residual", "Dec Residual"],
+      title : ["Id", "Estrella", "Pos X", "Pos Y", "AR Res. (rad)", "Dec Res. (rad)"],
       parseNumbers: [(c: any) => c, (c: any) => c, 
         (c: any) => parseFloat(c).toFixed(8), 
         (c: any) => parseFloat(c).toFixed(8), 
-        (c: any) => parseFloat(c).toExponential(4), 
-        (c: any) => parseFloat(c).toExponential(4) ], 
+        (c: any) => parseFloat(c).toExponential(8), 
+        (c: any) => parseFloat(c).toExponential(8) ], 
       createRows :  (csv: any) => {
         const csvObj = csv.slice(1,-1).map((fila: any) => { return Object.fromEntries(fila.map((valor: any, i: number) => [csv[0][i], valor])) })
 
-        const rows1 = csvObj.map(({ id, main_id, field_x, field_y,  ra_resid, dec_resid}: any) => ({ id, star:main_id, pos_x:field_x, pos_y:field_y, ra_resid, dec_resid  }))
+        const rows1 = csvObj.map(({ id, main_id, field_x, field_y,  ra_resid_deg, dec_resid_deg}: any) => ({ id, star:main_id, pos_x:field_x, pos_y:field_y, ra_resid:ra_resid_deg, dec_resid:dec_resid_deg  }))
 
-        const rows2 = csvObj.map(({ id, main_id, field_x, field_y,  ra_resid, dec_resid}: any) => ({ id, star:main_id, pos_x:field_x, pos_y:field_y, ra_resid, dec_resid  }))
+        const rows2 = csvObj.map(({ id, main_id, field_x, field_y,  ra_resid_deg, dec_resid_deg}: any) => ({ id, star:main_id, pos_x:field_x, pos_y:field_y, ra_resid:ra_resid_deg, dec_resid:dec_resid_deg  }))
 
-        const rows3 = csvObj.map(({ id, main_id, field_x, field_y,  ra_resid, dec_resid}: any) => ({ id, star:main_id, pos_x:field_x, pos_y:field_y, ra_resid, dec_resid  }))
+
+        const rows3 = csvObj.map(({ id, main_id, field_x, field_y,  ra_resid_rad, dec_resid_rad}: any) => ({ id, star:main_id, pos_x:field_x, pos_y:field_y, ra_resid:ra_resid_rad, dec_resid:dec_resid_rad  }))
 
         return {rows1, rows2, rows3}
       }
     }, 
     plate: {
       type : 'plate',
-      align : ["right", "right", "right"],
-      title : ["Coef.", "AR Res.", "DEC Res."],
+      align : ["right", "right", "right", "right"],
+      title : ["Coef.", "Coef. AR", "Coef. DEC", "Variància AR", "Variància DEC"],
       parseNumbers: [(c: any) => c, 
+        (c: any) => parseFloat(c).toExponential(8), 
+        (c: any) => parseFloat(c).toExponential(8), 
         (c: any) => parseFloat(c).toExponential(8), 
         (c: any) => parseFloat(c).toExponential(8), 
        ], 
       createRows :  (csv: any) => {
         const csvObj = csv.slice(1,-1).map((fila: any) => { return Object.fromEntries(fila.map((valor: any, i: number) => [csv[0][i], valor])) })
 
-        const rows1 = csvObj.map(({ Coef, AR, DEC}: any) => ({ Coef, AR, DEC}))
+        const rows1 = csvObj.map(({ Coef, AR_deg, DEC_deg, variance_ar_deg, variance_dec_deg}: any) => ({ Coef, AR:AR_deg, DEC:DEC_deg, Variància_AR: variance_ar_deg, Variància_DEC: variance_dec_deg }))
         const rows2 = rows1
-        const rows3 = rows1
+        const rows3 = csvObj.map(({ Coef, AR_rad, DEC_rad, variance_ar_rad, variance_dec_rad}: any) => ({ Coef, AR:AR_rad, DEC:DEC_rad, Variància_AR: variance_ar_rad, Variància_DEC: variance_dec_rad }))
 
         return {rows1, rows2, rows3}
       }
