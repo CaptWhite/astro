@@ -48,7 +48,7 @@ export const tableParams: any =
     placa: {
       type : 'placa',
       align : ["right", "left", "right", "right", "right", "right"],
-      title : ["Id", "Estrella", "Pos X", "Pos Y", "AR Res. (rad)", "Dec Res. (rad)"],
+      title : ["Id", "Estrella", "Pos X", "Pos Y", "AR Residual", "Dec Residual"],
       parseNumbers: [(c: any) => c, (c: any) => c, 
         (c: any) => parseFloat(c).toFixed(8), 
         (c: any) => parseFloat(c).toFixed(8), 

@@ -48,6 +48,8 @@ def calculate_plate(df, img_size):
 
 
   def calculate_residues(ra, dec, x, y, pc_ar, pc_dec):
+    x = x - img_size['width']/2
+    y = -(y - img_size['height']/2)
     ar_res = ra - (
       (pc_ar[0] * x * x * x) + (pc_ar[1] * x * x * y) + (pc_ar[2] * x * y * y) + (pc_ar[3] * y * y * y) + 
       (pc_ar[4] * x * x) + (pc_ar[5] * x * y) + (pc_ar[6] * y * y) + 
