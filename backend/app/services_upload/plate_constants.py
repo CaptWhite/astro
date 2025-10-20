@@ -26,13 +26,13 @@ def calculate_coeficients(MX, ar, dec, x, y):
   return [a_est_AR, a_est_DEC] 
 
 
-def calculate_plate(df, img_size):
+def calculate_plate(df):
   arr_ar = df['ar_app'].to_numpy()
   arr_dec = df['dec_app'].to_numpy()
-  # arr_x = df['field_x'].to_numpy()
-  # arr_y = df['field_y'].to_numpy()
-  arr_x = df['field_x'].to_numpy() - img_size['width']/2
-  arr_y = -(df['field_y'].to_numpy() - img_size['height']/2)
+  arr_x = df['field_x'].to_numpy()
+  arr_y = df['field_y'].to_numpy()
+  # arr_x = df['field_x'].to_numpy() - img_size['width']/2
+  # arr_y = -(df['field_y'].to_numpy() - img_size['height']/2)
   MX = calculate_MX(arr_ar, arr_dec, arr_x, arr_y) 
   [pc_ar, pc_dec] = calculate_coeficients(MX, arr_ar, arr_dec, arr_x, arr_y)
   coefs_name = ['X³', 'X²Y', 'XY²', 'Y³', 'X²', 'XY', 'Y²', 'X', 'Y', 'ind'] 
@@ -48,8 +48,8 @@ def calculate_plate(df, img_size):
 
 
   def calculate_residues(ra, dec, x, y, pc_ar, pc_dec):
-    x = x - img_size['width']/2
-    y = -(y - img_size['height']/2)
+    # x = x - img_size['width']/2
+    # y = -(y - img_size['height']/2)
     ar_res = ra - (
       (pc_ar[0] * x * x * x) + (pc_ar[1] * x * x * y) + (pc_ar[2] * x * y * y) + (pc_ar[3] * y * y * y) + 
       (pc_ar[4] * x * x) + (pc_ar[5] * x * y) + (pc_ar[6] * y * y) + 

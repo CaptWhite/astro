@@ -1,3 +1,4 @@
+from app.services_upload.origin_image import change_origin_image
 from app.services_upload.unzip_files import unzip
 from app.services_upload.astrometry import director
 #from app.services_upload.astropypy import get_apparent
@@ -60,8 +61,11 @@ async def main_process(file, date):
     img_size, img_bytes, PIL_image = add_star_names(filename, filebytes, stars)
     print_jpg(filename, PIL_image, '.named.jpg') 
 
-    ############ PLATE CONSTANTS #############
-    stars, plate = calculate_plate(stars, img_size)
+    ############ CHANGE CENTER IMAGE #############
+    stars = change_origin_image(stars, img_size) 
+
+    #################  PLATE CONSTANTS   ##################### 
+    stars, plate = calculate_plate(stars)
     print_xlsx(filename, stars, '.astropy-units.xlsx')  
     print_xlsx(filename, plate, '.plate-coefs.xlsx')  
 
